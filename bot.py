@@ -57,7 +57,6 @@ bot.raidstatus = 0
 bot.raid_members = []
 bot.eventchan = 0
 bot.common = 0
-bot.evrole = []
 bot.keepers = 0
 
 
@@ -81,15 +80,6 @@ async def on_ready():
                 bot.common = channel.id
             elif channel.name == "keepers-table":
                 bot.keepers = channel.id
-        for role in guild.roles:
-            line = str(role.name)
-            print(line)
-            if line == "Events":
-                print("!!!!!")
-                print(role.name)
-                bot.evrole.append(role)
-        if bot.evrole:
-            print(bot.evrole[0].id)
 
     updater.start()
 
@@ -110,15 +100,6 @@ async def on_guild_join(guild):
             bot.common = channel.id
         elif channel.name == "keepers-table":
             bot.keepers = channel.id
-    for role in guild.roles:
-        line = str(role.name)
-        print(line)
-        if line == "Events":
-            print("!!!!!")
-            print(role.name)
-            bot.evrole.append(role)
-    if bot.evrole:
-        print(bot.evrole[0].id)
 
 
 @bot.command(name='quote', help="generates random quotes with translation", pass_context=True)
@@ -583,12 +564,8 @@ async def updater():
                 message += line
             elif i[1]<toddate.date():
                 remevent(i[0])
-        print(message)
         if message != "":
-            if bot.evrole :
-                message = bot.evrole[0].mention +"\n```CLOSEST EVENTS```\n"+message
-            else:
-                message =  "```CLOSEST EVENTS```\n" + message
+            message =  "**Upcoming Events!**\n" + message
             await announcements.send(message)
     else:
         print("Hour is ", hour)
